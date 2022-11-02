@@ -46,7 +46,7 @@ public class FFT extends FourierTransformations {
         super(timeSize, sampleRate);
         if ((timeSize & (timeSize - 1)) != 0)
             throw new IllegalArgumentException(
-                    "FFT: timeSize must be a power of two.");
+                "FFT: timeSize must be a power of two.");
         buildReverseTable();
         buildTrigTables();
     }

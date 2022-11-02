@@ -11,9 +11,9 @@ public class WavFile {
     public Sample[][] samplesForChannels;
 
     public WavFile(
-            String filePath,
-            SamplingInfo samplingInfo,
-            Sample[][] samplesForChannels
+        String filePath,
+        SamplingInfo samplingInfo,
+        Sample[][] samplesForChannels
     ) {
         this.filePath = filePath;
         this.samplingInfo = samplingInfo;
@@ -25,7 +25,7 @@ public class WavFile {
 
         try {
             DataInputStream dataInputStream = new DataInputStream(
-                    new BufferedInputStream(new FileInputStream(filePathToReadFrom))
+                new BufferedInputStream(new FileInputStream(filePathToReadFrom))
             );
 
             DataInputStreamLittleEndian reader;
@@ -67,12 +67,12 @@ public class WavFile {
         Short bitsPerSample = reader.readShort();
 
         SamplingInfo samplingInfo = new SamplingInfo(
-                "[from file]",
-                chunkSizeInBytes,
-                formatCode,
-                numberOfChannels,
-                samplesPerSecond,
-                bitsPerSample
+            "[from file]",
+            chunkSizeInBytes,
+            formatCode,
+            numberOfChannels,
+            samplesPerSecond,
+            bitsPerSample
         );
 
         this.samplingInfo = samplingInfo;
@@ -94,7 +94,7 @@ public class WavFile {
     public void writeToFilePath() {
         try {
             DataOutputStream dataOutputStream =
-                    new DataOutputStream(new BufferedOutputStream(new FileOutputStream(this.filePath)));
+                new DataOutputStream(new BufferedOutputStream(new FileOutputStream(this.filePath)));
 
             DataOutputStreamLittleEndian writer;
             writer = new DataOutputStreamLittleEndian(dataOutputStream);
@@ -109,9 +109,9 @@ public class WavFile {
 
     private void writeToFilePath_WriteChunks(DataOutputStreamLittleEndian writer) throws IOException {
         int numberOfBytesInSamples = this.samplesForChannels[0].length
-                * this.samplingInfo.numberOfChannels
-                * this.samplingInfo.bitsPerSample
-                / WavFile.BitsPerByte;
+            * this.samplingInfo.numberOfChannels
+            * this.samplingInfo.bitsPerSample
+            / WavFile.BitsPerByte;
 
         writer.writeString("RIFF");
         writer.writeInt(numberOfBytesInSamples + WavFile.NumberOfBytesInRiffWaveAndFormatChunks);
@@ -129,7 +129,7 @@ public class WavFile {
         writer.writeInt(this.samplingInfo.samplesPerSecond);
         writer.writeInt(this.samplingInfo.bytesPerSecond());
         writer.writeShort(
-                (short) (this.samplingInfo.numberOfChannels * this.samplingInfo.bitsPerSample / WavFile.BitsPerByte)
+            (short) (this.samplingInfo.numberOfChannels * this.samplingInfo.bitsPerSample / WavFile.BitsPerByte)
         );
         writer.writeShort(this.samplingInfo.bitsPerSample);
     }
@@ -138,9 +138,9 @@ public class WavFile {
         writer.writeString("data");
 
         int numberOfBytesInSamples = this.samplesForChannels[0].length
-                * this.samplingInfo.numberOfChannels
-                * this.samplingInfo.bitsPerSample
-                / WavFile.BitsPerByte;
+            * this.samplingInfo.numberOfChannels
+            * this.samplingInfo.bitsPerSample
+            / WavFile.BitsPerByte;
 
         writer.writeInt(numberOfBytesInSamples);
 
@@ -233,9 +233,9 @@ public class WavFile {
             int bytesPerSample = bitsPerSample / WavFile.BitsPerByte;
 
             int numberOfBytes =
-                    numberOfChannels
-                            * samplesPerChannel
-                            * bytesPerSample;
+                numberOfChannels
+                    * samplesPerChannel
+                    * bytesPerSample;
 
             returnBytes = new byte[numberOfBytes];
 
@@ -303,7 +303,7 @@ public class WavFile {
 
         public Sample buildFromBytes(byte[] valueAsBytes) {
             short valueAsShort = (short) (
-                    ((valueAsBytes[0] & 0xFF)) | (short) ((valueAsBytes[1] & 0xFF) << 8)
+                ((valueAsBytes[0] & 0xFF)) | (short) ((valueAsBytes[1] & 0xFF) << 8)
             );
 
             return new Sample16(valueAsShort);
@@ -315,8 +315,8 @@ public class WavFile {
 
         public byte[] convertToBytes() {
             return new byte[]{
-                    (byte) ((this.value) & 0xFF),
-                    (byte) ((this.value >>> 8) & 0xFF),
+                (byte) ((this.value) & 0xFF),
+                (byte) ((this.value >>> 8) & 0xFF),
             };
         }
 
@@ -338,11 +338,11 @@ public class WavFile {
 
         public Sample buildFromBytes(byte[] valueAsBytes) {
             short valueAsShort = (short)
-                    (
-                            ((valueAsBytes[0] & 0xFF))
-                                    | ((valueAsBytes[1] & 0xFF) << 8)
-                                    | ((valueAsBytes[2] & 0xFF) << 16)
-                    );
+                (
+                    ((valueAsBytes[0] & 0xFF))
+                        | ((valueAsBytes[1] & 0xFF) << 8)
+                        | ((valueAsBytes[2] & 0xFF) << 16)
+                );
 
             return new Sample24(valueAsShort);
         }
@@ -353,9 +353,9 @@ public class WavFile {
 
         public byte[] convertToBytes() {
             return new byte[]{
-                    (byte) ((this.value) & 0xFF),
-                    (byte) ((this.value >>> 8) & 0xFF),
-                    (byte) ((this.value >>> 16) & 0xFF),
+                (byte) ((this.value) & 0xFF),
+                (byte) ((this.value >>> 8) & 0xFF),
+                (byte) ((this.value >>> 16) & 0xFF),
             };
         }
 
@@ -380,10 +380,10 @@ public class WavFile {
 
         public Sample buildFromBytes(byte[] valueAsBytes) {
             short valueAsShort = (short) (
-                    ((valueAsBytes[0] & 0xFF))
-                            | ((valueAsBytes[1] & 0xFF) << 8)
-                            | ((valueAsBytes[2] & 0xFF) << 16)
-                            | ((valueAsBytes[3] & 0xFF) << 24)
+                ((valueAsBytes[0] & 0xFF))
+                    | ((valueAsBytes[1] & 0xFF) << 8)
+                    | ((valueAsBytes[2] & 0xFF) << 16)
+                    | ((valueAsBytes[3] & 0xFF) << 24)
             );
 
             return new Sample32(valueAsShort);
@@ -395,12 +395,12 @@ public class WavFile {
 
         public byte[] convertToBytes() {
             return new byte[]
-                    {
-                            (byte) ((this.value) & 0xFF),
-                            (byte) ((this.value >>> 8) & 0xFF),
-                            (byte) ((this.value >>> 16) & 0xFF),
-                            (byte) ((this.value >>> 24) & 0xFF),
-                    };
+                {
+                    (byte) ((this.value) & 0xFF),
+                    (byte) ((this.value >>> 8) & 0xFF),
+                    (byte) ((this.value >>> 16) & 0xFF),
+                    (byte) ((this.value >>> 24) & 0xFF),
+                };
         }
 
         public double convertToDouble() {
@@ -417,14 +417,14 @@ public class WavFile {
         public short bitsPerSample;
 
         public SamplingInfo
-                (
-                        String name,
-                        int chunkSizeInBytes,
-                        short formatCode,
-                        short numberOfChannels,
-                        int samplesPerSecond,
-                        short bitsPerSample
-                ) {
+            (
+                String name,
+                int chunkSizeInBytes,
+                short formatCode,
+                short numberOfChannels,
+                int samplesPerSecond,
+                short bitsPerSample
+            ) {
             this.name = name;
             this.chunkSizeInBytes = chunkSizeInBytes;
             this.formatCode = formatCode;
@@ -435,19 +435,19 @@ public class WavFile {
 
         public static class Instances {
             public static SamplingInfo Default = new SamplingInfo(
-                    "Default",
-                    16, // chunkSizeInBytes
-                    (short) 1, // formatCode
-                    (short) 1, // numberOfChannels
-                    44100,     // samplesPerSecond
-                    (short) 16 // bitsPerSample
+                "Default",
+                16, // chunkSizeInBytes
+                (short) 1, // formatCode
+                (short) 1, // numberOfChannels
+                44100,     // samplesPerSecond
+                (short) 16 // bitsPerSample
             );
         }
 
         public int bytesPerSecond() {
             return this.samplesPerSecond
-                    * this.numberOfChannels
-                    * this.bitsPerSample / WavFile.BitsPerByte;
+                * this.numberOfChannels
+                * this.bitsPerSample / WavFile.BitsPerByte;
         }
 
         public Sample samplePrototype() {
@@ -466,12 +466,12 @@ public class WavFile {
 
         public String toString() {
             String returnValue = "<SamplingInfo "
-                    + "chunkSizeInBytes='" + this.chunkSizeInBytes + "' "
-                    + "formatCode='" + this.formatCode + "' "
-                    + "numberOfChannels='" + this.numberOfChannels + "' "
-                    + "samplesPerSecond='" + this.samplesPerSecond + "' "
-                    + "bitsPerSample='" + this.bitsPerSample + "' "
-                    + "/>";
+                + "chunkSizeInBytes='" + this.chunkSizeInBytes + "' "
+                + "formatCode='" + this.formatCode + "' "
+                + "numberOfChannels='" + this.numberOfChannels + "' "
+                + "samplesPerSecond='" + this.samplesPerSecond + "' "
+                + "bitsPerSample='" + this.bitsPerSample + "' "
+                + "/>";
 
             return returnValue;
         }

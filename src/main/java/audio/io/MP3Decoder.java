@@ -19,7 +19,7 @@ import java.util.HashMap;
 /**
  * Another mp3 decoder. I got a suspicion that the other one sucks a bit :/
  *
- * @author mzechner
+ * @author VITTACH
  */
 public class MP3Decoder implements Decoder {
     AudioInputStream in;
@@ -46,13 +46,13 @@ public class MP3Decoder implements Decoder {
         this.in = new MP3AudioFileReader().getAudioInputStream(in);
         baseFormat = this.in.getFormat();
         AudioFormat format = new AudioFormat(
-                AudioFormat.Encoding.PCM_SIGNED,
-                baseFormat.getSampleRate(),
-                16,
-                baseFormat.getChannels(),
-                baseFormat.getChannels() * 2,
-                baseFormat.getSampleRate(),
-                false
+            AudioFormat.Encoding.PCM_SIGNED,
+            baseFormat.getSampleRate(),
+            16,
+            baseFormat.getChannels(),
+            baseFormat.getChannels() * 2,
+            baseFormat.getSampleRate(),
+            false
         );
         this.in = AudioSystem.getAudioInputStream(format, this.in);
     }
@@ -62,9 +62,9 @@ public class MP3Decoder implements Decoder {
         if (buffer == null || buffer.getSampleCount() < samples.length) {
             int bufferSize = (int) Math.pow(2, (Math.log(1024 * speed) / Math.log(2.0)));
             buffer = new FloatSampleBuffer(
-                    in.getFormat().getChannels(),
-                    bufferSize,
-                    in.getFormat().getSampleRate()
+                in.getFormat().getChannels(),
+                bufferSize,
+                in.getFormat().getSampleRate()
             );
             bytes = new byte[buffer.getByteArrayBufferSize(in.getFormat())];
         }
@@ -105,7 +105,8 @@ public class MP3Decoder implements Decoder {
                 if ((int) j % 2 != 0) {
                     sourceIndex = (int) j;
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
 
         return buffer.getSampleCount();
@@ -115,10 +116,10 @@ public class MP3Decoder implements Decoder {
         public static final int INITAL_READ_LENGTH = 128000;
         private static final int MARK_LIMIT = INITAL_READ_LENGTH + 1;
         private final AudioFormat.Encoding[][] sm_aEncodings = {
-                {MpegEncoding.MPEG2L1, MpegEncoding.MPEG2L2, MpegEncoding.MPEG2L3},
-                {MpegEncoding.MPEG1L1, MpegEncoding.MPEG1L2, MpegEncoding.MPEG1L3},
-                {MpegEncoding.MPEG2DOT5L1, MpegEncoding.MPEG2DOT5L2,
-                        MpegEncoding.MPEG2DOT5L3},
+            {MpegEncoding.MPEG2L1, MpegEncoding.MPEG2L2, MpegEncoding.MPEG2L3},
+            {MpegEncoding.MPEG1L1, MpegEncoding.MPEG1L2, MpegEncoding.MPEG1L3},
+            {MpegEncoding.MPEG2DOT5L1, MpegEncoding.MPEG2DOT5L2,
+                MpegEncoding.MPEG2DOT5L3},
         };
 
         protected MP3AudioFileReader() {
@@ -127,7 +128,7 @@ public class MP3Decoder implements Decoder {
 
         @Override
         protected AudioFileFormat getAudioFileFormat(InputStream inputStream, long mediaLength)
-                throws UnsupportedAudioFileException, IOException {
+            throws UnsupportedAudioFileException, IOException {
             HashMap aff_properties = new HashMap();
             HashMap af_properties = new HashMap();
             int mLength = (int) mediaLength;
@@ -139,39 +140,39 @@ public class MP3Decoder implements Decoder {
             // Check for WAV, AU, and AIFF, Ogg Vorbis, Flac, MAC file formats.
             // Next check for Shoutcast (supported) and OGG (unsupported) streams.
             if ((head[0] == 'R') && (head[1] == 'I') && (head[2] == 'F')
-                    && (head[3] == 'F') && (head[8] == 'W') && (head[9] == 'A')
-                    && (head[10] == 'V') && (head[11] == 'E')) {
+                && (head[3] == 'F') && (head[8] == 'W') && (head[9] == 'A')
+                && (head[10] == 'V') && (head[11] == 'E')) {
                 int isPCM = ((head[21] << 8) & 0x0000FF00) | ((head[20]) & 0x00000FF);
                 throw new UnsupportedAudioFileException("WAV PCM stream found");
 
             } else if ((head[0] == '.') && (head[1] == 's') && (head[2] == 'n')
-                    && (head[3] == 'd')) {
+                && (head[3] == 'd')) {
                 throw new UnsupportedAudioFileException("AU stream found");
             } else if ((head[0] == 'F') && (head[1] == 'O') && (head[2] == 'R')
-                    && (head[3] == 'M') && (head[8] == 'A') && (head[9] == 'I')
-                    && (head[10] == 'F') && (head[11] == 'F')) {
+                && (head[3] == 'M') && (head[8] == 'A') && (head[9] == 'I')
+                && (head[10] == 'F') && (head[11] == 'F')) {
                 throw new UnsupportedAudioFileException("AIFF stream found");
             } else if (((head[0] == 'M') | (head[0] == 'm'))
-                    && ((head[1] == 'A') | (head[1] == 'a'))
-                    && ((head[2] == 'C') | (head[2] == 'c'))) {
+                && ((head[1] == 'A') | (head[1] == 'a'))
+                && ((head[2] == 'C') | (head[2] == 'c'))) {
                 throw new UnsupportedAudioFileException("APE stream found");
             } else if (((head[0] == 'F') | (head[0] == 'f'))
-                    && ((head[1] == 'L') | (head[1] == 'l'))
-                    && ((head[2] == 'A') | (head[2] == 'a'))
-                    && ((head[3] == 'C') | (head[3] == 'c'))) {
+                && ((head[1] == 'L') | (head[1] == 'l'))
+                && ((head[2] == 'A') | (head[2] == 'a'))
+                && ((head[3] == 'C') | (head[3] == 'c'))) {
                 throw new UnsupportedAudioFileException("FLAC stream found");
             }
             // Shoutcast stream ?
             else if (((head[0] == 'I') | (head[0] == 'i'))
-                    && ((head[1] == 'C') | (head[1] == 'c'))
-                    && ((head[2] == 'Y') | (head[2] == 'y'))) {
+                && ((head[1] == 'C') | (head[1] == 'c'))
+                && ((head[2] == 'Y') | (head[2] == 'y'))) {
                 pis.unread(head);
                 // Load shoutcast meta data.
             }
             // Ogg stream ?
             else if (((head[0] == 'O') | (head[0] == 'o'))
-                    && ((head[1] == 'G') | (head[1] == 'g'))
-                    && ((head[2] == 'G') | (head[2] == 'g'))) {
+                && ((head[1] == 'G') | (head[1] == 'g'))
+                && ((head[2] == 'G') | (head[2] == 'g'))) {
                 throw new UnsupportedAudioFileException("Ogg stream found");
             }
             // No, so pushback.
@@ -266,24 +267,24 @@ public class MP3Decoder implements Decoder {
             }
 
             AudioFormat format = new MpegAudioFormat(encoding, (float) nFrequency,
-                    AudioSystem.NOT_SPECIFIED // SampleSizeInBits
-                    // -
-                    // The
-                    // size
-                    // of a
-                    // sample
-                    , nChannels // Channels - The
-                    // number of
-                    // channels
-                    , -1 // The number of bytes in
-                    // each frame
-                    , FrameRate // FrameRate - The
-                    // number of frames
-                    // played or
-                    // recorded per
-                    // second
-                    , true
-                    , af_properties
+                AudioSystem.NOT_SPECIFIED // SampleSizeInBits
+                // -
+                // The
+                // size
+                // of a
+                // sample
+                , nChannels // Channels - The
+                // number of
+                // channels
+                , -1 // The number of bytes in
+                // each frame
+                , FrameRate // FrameRate - The
+                // number of frames
+                // played or
+                // recorded per
+                // second
+                , true
+                , af_properties
             );
             return new MpegAudioFileFormat(MpegFileFormatType.MP3, format, nTotalFrames, mLength, aff_properties);
         }

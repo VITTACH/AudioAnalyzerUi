@@ -14,7 +14,7 @@ import java.util.*
  * real-time plotting with the Plot class it is just not made for
  * this.
  *
- * @author mzechner
+ * @author VITTACH
  */
 object PlotExample {
 

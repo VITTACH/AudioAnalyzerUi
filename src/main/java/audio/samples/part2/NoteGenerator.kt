@@ -68,10 +68,10 @@ private fun drawPlots(soundArray: FloatArray) {
         rate.toFloat()
     )
     fft1.forward(buffer)
-    val notesSpectrum = Plot("Notes Spectrum", 512, 512)
+    val notesSpectrum = Plot("Frequency Spectrum", 512, 512)
     notesSpectrum.plot(fft1.spectrum, 1f, Color.red)
 
-    val notesPlot = Plot("Notes Plot", 512, 512)
+    val notesPlot = Plot("PCM Waves", 512, 512)
     notesPlot.plot(soundArray, 1f, -1f, false, Color.red)
 
     waves.forEach { signal: FloatArray ->

@@ -18,18 +18,17 @@ object MultiBandThreshold {
 
     @JvmStatic
     fun main(argv: Array<String>) {
-        val decoder =
-            MP3Decoder(FileInputStream(FILE))
-        val spectrumProvider = SpectrumProvider(
-            decoder,
-            1024,
-            HOP_SIZE,
-            true
-        )
-        var spectrum = spectrumProvider.nextSpectrum()
+        val decoder = MP3Decoder(FileInputStream(FILE))
+        val spectrumProvider = SpectrumProvider(decoder, 1024, HOP_SIZE, true)
+
+        var spectrum = spectrumProvider.nextSpectrum() ?: return
         val lastSpectrum = FloatArray(spectrum.size)
         val spectralFlux: MutableList<MutableList<Float>> = ArrayList()
-        for (i in 0 until bands.size / 2) spectralFlux.add(ArrayList())
+
+        for (i in 0 until bands.size / 2) {
+            spectralFlux.add(ArrayList())
+        }
+
         do {
             var i = 0
             while (i < bands.size) {
@@ -45,24 +44,21 @@ object MultiBandThreshold {
                 i += 2
             }
             System.arraycopy(spectrum, 0, lastSpectrum, 0, spectrum.size)
-        } while (spectrumProvider.nextSpectrum().also { spectrum = it } != null)
+        } while (spectrumProvider.nextSpectrum()?.also { spectrum = it } != null)
+
         val thresholds: MutableList<List<Float>> = ArrayList()
         for (i in 0 until bands.size / 2) {
-            val threshold = ThresholdFunction(
-                HISTORY_SIZE,
-                multipliers[i]
-            ).calculate(spectralFlux[i])
+            val threshold =
+                ThresholdFunction(HISTORY_SIZE, multipliers[i]).calculate(spectralFlux[i])
             thresholds.add(threshold)
         }
+
         val plot = Plot("Spectral Flux", 1024, 512)
         for (i in 0 until bands.size / 2) {
             plot.plot(spectralFlux[i], 1f, -0.6f * (bands.size / 2 - 2) + i, false, Color.red)
             plot.plot(thresholds[i], 1f, -0.6f * (bands.size / 2 - 2) + i, true, Color.green)
         }
-        PlaybackVisualizer(
-            plot,
-            HOP_SIZE,
-            MP3Decoder(FileInputStream(FILE))
-        )
+
+        PlaybackVisualizer(plot, HOP_SIZE, MP3Decoder(FileInputStream(FILE)))
     }
 }

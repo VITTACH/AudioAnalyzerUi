@@ -24,10 +24,10 @@ public class DataOutputStreamLittleEndian {
 
     public void writeInt(int intToWrite) throws IOException {
         byte[] intToWriteAsBytesLittleEndian = new byte[]{
-                (byte) (intToWrite & 0xFF),
-                (byte) ((intToWrite >> 8) & 0xFF),
-                (byte) ((intToWrite >> 16) & 0xFF),
-                (byte) ((intToWrite >> 24) & 0xFF),
+            (byte) (intToWrite & 0xFF),
+            (byte) ((intToWrite >> 8) & 0xFF),
+            (byte) ((intToWrite >> 16) & 0xFF),
+            (byte) ((intToWrite >> 24) & 0xFF),
         };
 
         this.systemStream.write(intToWriteAsBytesLittleEndian, 0, 4);
@@ -35,8 +35,8 @@ public class DataOutputStreamLittleEndian {
 
     public void writeShort(short shortToWrite) throws IOException {
         byte[] shortToWriteAsBytesLittleEndian = new byte[]{
-                (byte) shortToWrite,
-                (byte) (shortToWrite >>> 8 & 0xFF),
+            (byte) shortToWrite,
+            (byte) (shortToWrite >>> 8 & 0xFF),
         };
 
         this.systemStream.write(shortToWriteAsBytesLittleEndian, 0, 2);

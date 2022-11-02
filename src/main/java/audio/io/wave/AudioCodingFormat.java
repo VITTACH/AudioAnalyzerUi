@@ -24,8 +24,8 @@ public enum AudioCodingFormat {
 
     public static AudioCodingFormat from(int value) {
         return Arrays.stream(values())
-                .filter(audioCodingFormat -> audioCodingFormat.code == value)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Unknown audio coding format code provided: " + value));
+            .filter(audioCodingFormat -> audioCodingFormat.code == value)
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Unknown audio coding format code provided: " + value));
     }
 }

@@ -8,7 +8,7 @@ import java.io.FileInputStream;
 /**
  * Simple example that shows how to decode an mp3 file.
  *
- * @author mzechner
+ * @author VITTACH
  */
 public class MP3Output {
     public static void main(String[] argv) throws Exception {

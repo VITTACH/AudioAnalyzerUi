@@ -25,10 +25,10 @@ public class DataInputStreamLittleEndian {
         this.systemStream.read(bytesLittleEndian);
 
         long returnValueAsLong = (
-                (bytesLittleEndian[0] & 0xFF)
-                        | ((bytesLittleEndian[1] & 0xFF) << 8)
-                        | ((bytesLittleEndian[2] & 0xFF) << 16)
-                        | ((bytesLittleEndian[3] & 0xFF) << 24)
+            (bytesLittleEndian[0] & 0xFF)
+                | ((bytesLittleEndian[1] & 0xFF) << 8)
+                | ((bytesLittleEndian[2] & 0xFF) << 16)
+                | ((bytesLittleEndian[3] & 0xFF) << 24)
         );
 
         return (int) returnValueAsLong;

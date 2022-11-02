@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * the Swing GUI thread time to repaint the plot with the updated marker
  * position.
  *
- * @author mzechner
+ * @author VITTACH
  */
 public class RealTimePlot {
     private static final int SAMPLE_WINDOW_SIZE = 1024;

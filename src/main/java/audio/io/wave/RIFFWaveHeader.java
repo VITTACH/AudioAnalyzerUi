@@ -111,10 +111,10 @@ public class RIFFWaveHeader {
 
         RIFFWaveHeader riffWaveHeader = (RIFFWaveHeader) o;
         return channels == riffWaveHeader.channels
-                && sampleRate == riffWaveHeader.sampleRate
-                && bitsPerSample == riffWaveHeader.bitsPerSample
-                && dataSize == riffWaveHeader.dataSize
-                && audioCodingFormat == riffWaveHeader.audioCodingFormat;
+            && sampleRate == riffWaveHeader.sampleRate
+            && bitsPerSample == riffWaveHeader.bitsPerSample
+            && dataSize == riffWaveHeader.dataSize
+            && audioCodingFormat == riffWaveHeader.audioCodingFormat;
     }
 
     @Override
@@ -128,9 +128,9 @@ public class RIFFWaveHeader {
     @Override
     public String toString() {
         return String.format(Locale.getDefault(),
-                "RIFF WAVE header:  audio coding format=%s  channels=%d  sample rate=%d Hz  bits per sample=%d"
-                        + "  block alignment=%d bytes  data size=%d bytes",
-                AudioCodingFormat.LINEAR_PCM.name(), channels, sampleRate, bitsPerSample,
-                bitsPerSample * channels / 8, dataSize);
+            "RIFF WAVE header:  audio coding format=%s  channels=%d  sample rate=%d Hz  bits per sample=%d"
+                + "  block alignment=%d bytes  data size=%d bytes",
+            AudioCodingFormat.LINEAR_PCM.name(), channels, sampleRate, bitsPerSample,
+            bitsPerSample * channels / 8, dataSize);
     }
 }
